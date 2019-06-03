@@ -1,0 +1,19 @@
+FLNAME=$1
+EXNAME=`basename $1 .f90`
+
+MODDIR="trunk/module"
+OBJDIR="trunk/module"
+
+#Declare the path for BFGS library
+
+BFGSLIB=""
+
+OPTION="-ffree-form -cpp -O3  -fPIC -fno-second-underscore -m64 -Wl,--no-as-needed "
+
+#Declare the path for FFTW library
+
+FFTWINC="/usr/local/lib/fftw-3.3.7/include"
+FFTWLIB="/usr/local/lib/fftw-3.3.7/lib"
+
+
+gfortran $OPTION  -I$MODDIR  -L$FFTWLIB -I$FFTWINC -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_gf_lp64 -lmkl_core -lmkl_gnu_thread -lgomp -lpthread -lm -ldl -lfftw3  -o $EXNAME $FLNAME $OBJDIR/*.o  $BFGSLIB/*.o 
